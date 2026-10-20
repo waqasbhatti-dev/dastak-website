@@ -3,7 +3,6 @@ import { MessageCircle, ShoppingCart, Sparkles, MapPin, ShieldCheck, Clock } fro
 import { Language } from '../types';
 import { translations, WHATSAPP_URL, WHATSAPP_NUMBER } from '../constants/translations';
 import { StarParticlesCanvas } from './StarParticlesCanvas';
-import { WelcomeVoicePanel } from './WelcomeVoicePanel';
 
 interface Hero3DProps {
   lang: Language;
@@ -48,7 +47,7 @@ export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden bg-gradient-to-b from-[#070D1E] via-[#0A152E] to-[#070D1E]"
+      className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden bg-gradient-to-b from-[#070D1E] via-[#0A152E] to-[#070D1E] scroll-mt-20"
     >
       {/* Dynamic Star Particles Canvas */}
       <StarParticlesCanvas />
@@ -56,12 +55,12 @@ export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
       {/* Layered Lighting & Glow Ambience */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         {/* Core Golden Aura */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[580px] h-[340px] sm:h-[480px] bg-gradient-to-tr from-[#F5B041]/15 via-[#AA771C]/10 to-transparent rounded-full blur-[90px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[580px] h-[300px] sm:h-[480px] bg-gradient-to-tr from-[#F5B041]/15 via-[#AA771C]/10 to-transparent rounded-full blur-[90px]" />
         {/* Deep Navy Highlight */}
         <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[650px] h-[400px] bg-[#1A3670]/25 rounded-full blur-[110px]" />
         {/* Subtle geometric orbital ring */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[520px] h-[300px] sm:h-[520px] rounded-full border border-[#F5B041]/10 opacity-60 animate-[spin_40s_linear_infinite]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[680px] h-[380px] sm:h-[680px] rounded-full border border-dashed border-[#F5B041]/10 opacity-30 animate-[spin_70s_linear_infinite_reverse]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[280px] sm:h-[520px] rounded-full border border-[#F5B041]/10 opacity-60 animate-[spin_40s_linear_infinite]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[680px] h-[340px] sm:h-[680px] rounded-full border border-dashed border-[#F5B041]/10 opacity-30 animate-[spin_70s_linear_infinite_reverse]" />
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
@@ -95,7 +94,7 @@ export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
 
             {/* Main 3D DASTAK Extruded Wordmark */}
             <div className="relative glint-effect inline-block py-1">
-              <h1 className="dastak-3d-wordmark text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-[0.14em]">
+              <h1 className="dastak-3d-wordmark text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.08em] sm:tracking-[0.14em]">
                 DASTAK
               </h1>
             </div>
@@ -150,23 +149,9 @@ export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
           </div>
         </div>
 
-        {/* Bilingual Welcome Voice Experience Panel */}
-        <WelcomeVoicePanel currentLang={lang} onLanguageChange={onLanguageChange} />
-
-        {/* Two Prominent Action Hero Buttons */}
-        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md px-2">
-          {/* Button 1: Direct WhatsApp Contact */}
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto flex-1 group relative inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] shadow-lg shadow-[#25D366]/30 hover:shadow-xl hover:shadow-[#25D366]/40 hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 focus:ring-offset-[#070D1E]"
-          >
-            <MessageCircle className="w-5 h-5 fill-white text-transparent group-hover:scale-110 transition-transform" />
-            <span>{t.hero.btnWhatsApp}</span>
-          </a>
-
-          {/* Button 2: Order on Website */}
+        {/* Hero Action Buttons: Primary 'Place an Order' + Secondary 'Our Services' */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md px-2">
+          {/* Primary Button: Place an Order */}
           <a
             href="#order-form"
             onClick={handleScrollToOrder}
@@ -174,6 +159,20 @@ export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
           >
             <ShoppingCart className="w-5 h-5 text-[#070D1E] group-hover:scale-110 transition-transform" />
             <span>{t.hero.btnOrder}</span>
+          </a>
+
+          {/* Secondary Button: Our Services */}
+          <a
+            href="#services"
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.querySelector('#services');
+              if (target) target.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="w-full sm:w-auto flex-1 group inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-bold text-[#FFE89E] hover:text-white bg-[#0F1E3D]/80 hover:bg-[#162A56] border border-[#F5B041]/40 hover:border-[#F5B041] shadow-md shadow-black/40 hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:ring-offset-2 focus:ring-offset-[#070D1E]"
+          >
+            <Sparkles className="w-4 h-4 text-[#F5B041] group-hover:rotate-12 transition-transform" />
+            <span>{t.hero.btnServices}</span>
           </a>
         </div>
 

@@ -23,10 +23,12 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
 
   const navItems = [
     { label: t.nav.home, href: '#home' },
-    { label: t.nav.order, href: '#order-form' },
+    { label: t.nav.voice, href: '#welcome-voice' },
     { label: t.nav.services, href: '#services' },
-    { label: t.nav.about, href: '#about' },
+    { label: t.nav.howItWorks, href: '#how-it-works' },
+    { label: t.nav.order, href: '#order-form' },
     { label: t.nav.area, href: '#service-area' },
+    { label: t.nav.about, href: '#about' },
     { label: t.nav.feedback, href: '#feedback' },
     { label: t.nav.contact, href: '#contact' },
   ];

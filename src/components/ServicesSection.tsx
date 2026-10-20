@@ -40,31 +40,25 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang, onSelect
   };
 
   return (
-    <section id="services" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#091124]">
-      {/* Background radial accent */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/3 left-0 w-80 h-80 bg-[#162A56]/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-10 right-0 w-80 h-80 bg-[#F5B041]/5 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto">
+    <section id="services" className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#091124] border-t border-slate-800/80 scroll-mt-20">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#F5B041]/30 text-xs font-semibold text-[#FFE89E] mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#F5B041]" />
             <span>{lang === 'ur' ? 'جامع اور تیز ترسیل' : 'Comprehensive & Swift'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             {t.services.title}
           </h2>
 
-          <p className="mt-3 text-base sm:text-lg text-slate-300">
+          <p className="mt-2.5 text-sm sm:text-base text-slate-300">
             {t.services.subtitle}
           </p>
 
           {/* Honest Transparency Notice */}
-          <div className="mt-6 p-4 rounded-xl bg-[#0F1E3D]/80 border border-slate-700/80 text-xs sm:text-sm text-slate-300 flex items-start gap-3 text-start">
+          <div className="mt-6 p-4 rounded-xl bg-[#0F1E3D] border border-slate-800 text-xs sm:text-sm text-slate-300 flex items-start gap-3 text-start">
             <Info className="w-5 h-5 text-[#F5B041] shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               {t.services.notice}
@@ -72,20 +66,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang, onSelect
           </div>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Services Grid (Single column on mobile, 2 on tablet, 3 on desktop) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-6 lg:gap-8">
           {t.services.cards.map((card) => {
             const isParcel = card.id.includes('parcel');
 
             return (
               <div
                 key={card.id}
-                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-[#0F1E3D] to-[#0A1428] border border-slate-800 hover:border-[#F5B041]/40 shadow-xl shadow-black/30 hover:shadow-2xl hover:shadow-[#F5B041]/10 hover:-translate-y-1 transition-all duration-300"
+                className="group relative flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-[#0F1E3D] to-[#0A1428] border border-slate-800 hover:border-[#F5B041]/35 shadow-xl shadow-black/30 hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
                   {/* Top Bar with Icon */}
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-[#162A56]/60 border border-slate-700/80 flex items-center justify-center group-hover:border-[#F5B041]/50 group-hover:bg-[#162A56] transition-colors shadow-inner">
+                    <div className="w-12 h-12 rounded-xl bg-[#162A56]/60 border border-slate-700/80 flex items-center justify-center group-hover:border-[#F5B041]/40 group-hover:bg-[#162A56] transition-colors shadow-inner">
                       {getIcon(card.icon)}
                     </div>
 
@@ -107,7 +101,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang, onSelect
                   </div>
 
                   {/* Card Title & Subtitle */}
-                  <h3 className="text-xl font-bold text-white group-hover:text-[#FFE89E] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-[#FFE89E] transition-colors">
                     {card.title}
                   </h3>
                   <p className="text-xs font-semibold text-[#F5B041]/80 mt-0.5">
@@ -115,7 +109,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang, onSelect
                   </p>
 
                   {/* Description */}
-                  <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                  <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
                     {card.desc}
                   </p>
                 </div>
@@ -123,8 +117,9 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ lang, onSelect
                 {/* Action Button */}
                 <div className="mt-6 pt-4 border-t border-slate-800/80">
                   <button
+                    type="button"
                     onClick={() => onSelectService(isParcel ? 'parcel' : 'standard', card.title)}
-                    className="w-full inline-flex items-center justify-between text-xs sm:text-sm font-bold text-[#FFE89E] group-hover:text-white px-3 py-2 rounded-lg bg-[#16284F]/40 hover:bg-[#F5B041] hover:text-[#070D1E] transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#F5B041]"
+                    className="w-full inline-flex items-center justify-between text-xs sm:text-sm font-bold text-[#FFE89E] group-hover:text-white px-3.5 py-2.5 rounded-xl bg-[#16284F]/40 hover:bg-[#F5B041] hover:text-[#070D1E] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                   >
                     <span>
                       {lang === 'ur' ? 'اس سروس کے لیے آرڈر لکھیں' : 'Request This Service'}

@@ -211,8 +211,8 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
   const voiceTranslations = t.welcomeVoice;
 
   return (
-    <div className="w-full max-w-xl mx-auto my-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-      <div className="relative rounded-2xl bg-gradient-to-b from-[#0F1E3D]/95 via-[#0A1428]/95 to-[#070D1E]/95 border border-[#F5B041]/35 shadow-2xl p-4 sm:p-5 backdrop-blur-md">
+    <div className="w-full max-w-xl mx-auto">
+      <div className="relative rounded-2xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-800 shadow-xl p-5 sm:p-6 backdrop-blur-md">
         {/* Glow Accent */}
         <div
           className="pointer-events-none absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-[#F5B041]/10 via-[#FFE89E]/15 to-[#F5B041]/10 blur-sm -z-10"
@@ -238,16 +238,20 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
 
             <div className="text-start">
               <h3 className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
-                <span>{voiceTranslations.title}</span>
-                {isSpeaking && (
+                <span>{currentLang === 'ur' ? 'آڈیو پلیئر' : 'Audio Player'}</span>
+                {isSpeaking ? (
                   <span className="inline-flex items-center gap-1 text-[10px] text-[#25D366] font-bold bg-[#25D366]/10 px-2 py-0.5 rounded-full border border-[#25D366]/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-ping" />
                     <span>LIVE</span>
                   </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] text-slate-400 font-medium bg-slate-800/60 px-2 py-0.5 rounded-full border border-slate-700/60">
+                    <span>{voiceTranslations.voiceReady}</span>
+                  </span>
                 )}
               </h3>
               <p className="text-[11px] text-slate-300 font-medium">
-                {voiceTranslations.subtitle}
+                {currentLang === 'ur' ? 'انگریزی یا اردو میں پیغام سنیں' : 'Listen in English or Urdu'}
               </p>
             </div>
           </div>

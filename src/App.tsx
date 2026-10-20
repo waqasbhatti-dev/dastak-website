@@ -4,18 +4,19 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, ArrowUp } from 'lucide-react';
+import { MessageCircle, ArrowUp, Volume2 } from 'lucide-react';
 import { Language } from './types';
-import { WHATSAPP_URL, WHATSAPP_NUMBER } from './constants/translations';
+import { WHATSAPP_URL, WHATSAPP_NUMBER, translations } from './constants/translations';
 import { Navbar } from './components/Navbar';
 import { Hero3D } from './components/Hero3D';
+import { WelcomeVoicePanel } from './components/WelcomeVoicePanel';
 import { ServicesSection } from './components/ServicesSection';
+import { HowItWorksSection } from './components/HowItWorksSection';
 import { OrderFormSection } from './components/OrderFormSection';
-import { AboutSection } from './components/AboutSection';
 import { ServiceAreaSection } from './components/ServiceAreaSection';
+import { AboutSection } from './components/AboutSection';
 import { FeedbackSection } from './components/FeedbackSection';
 import { ContactSection } from './components/ContactSection';
-import { SocialSection } from './components/SocialSection';
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -56,40 +57,68 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const t = translations[lang];
+
   return (
     <div className="min-h-screen bg-[#070D1E] text-slate-100 flex flex-col font-sans selection:bg-[#E5A93C] selection:text-[#070D1E]">
-      {/* Navbar */}
+      {/* 1. Header and Navigation */}
       <Navbar lang={lang} onToggleLanguage={toggleLanguage} />
 
-      {/* Main Content Sections */}
+      {/* Main Content in Logical Sequence */}
       <main className="flex-1">
-        {/* A. Hero Section with 3D Wordmark & Slogans & Welcome Voice */}
-        <Hero3D lang={lang} onLanguageChange={setLang} />
+        {/* 2. Hero Section: Headline, description, 'Place an Order', 'Our Services' */}
+        <Hero3D lang={lang} />
 
-        {/* B. Our Services */}
+        {/* 3. Welcome Voice Experience: Listen and Stop controls, no autoplay */}
+        <section
+          id="welcome-voice"
+          className="relative py-14 sm:py-18 px-4 sm:px-6 lg:px-8 bg-[#081024] border-t border-slate-800/80 scroll-mt-20"
+        >
+          <div className="max-w-4xl mx-auto">
+            {/* Standard Section Header */}
+            <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#F5B041]/30 text-xs font-semibold text-[#FFE89E] mb-3">
+                <Volume2 className="w-3.5 h-3.5 text-[#F5B041]" />
+                <span>{t.welcomeVoice.badge}</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+                {t.welcomeVoice.title}
+              </h2>
+
+              <p className="mt-2.5 text-sm sm:text-base text-slate-300">
+                {t.welcomeVoice.subtitle}
+              </p>
+            </div>
+
+            <WelcomeVoicePanel currentLang={lang} onLanguageChange={setLang} />
+          </div>
+        </section>
+
+        {/* 4. Services Section: Supported service categories in consistent card layout */}
         <ServicesSection lang={lang} onSelectService={handleSelectService} />
 
-        {/* C. Place an Order */}
+        {/* 5. How It Works: Three simple ordering steps */}
+        <HowItWorksSection lang={lang} />
+
+        {/* 6. Order Form: Existing working form, image, voice, WhatsApp workflow */}
         <OrderFormSection
           lang={lang}
           initialOrderType={orderType}
           selectedServiceNotice={serviceNotice}
         />
 
-        {/* D. About Dastak */}
-        <AboutSection lang={lang} />
-
-        {/* E. Service Area */}
+        {/* 7. Service Area: Jhelum City Housing, Jhelum, Pakistan */}
         <ServiceAreaSection lang={lang} />
 
-        {/* F. Ratings & Feedback */}
+        {/* 8. About Dastak: Service purpose and verified local info */}
+        <AboutSection lang={lang} />
+
+        {/* 9. Customer Feedback: 5-star rating and WhatsApp transmission */}
         <FeedbackSection lang={lang} />
 
-        {/* G. Contact Us */}
+        {/* 10. Contact and Social Media: Contact details and official social links */}
         <ContactSection lang={lang} />
-
-        {/* H. Social Media */}
-        <SocialSection lang={lang} />
       </main>
 
       {/* I. Footer */}

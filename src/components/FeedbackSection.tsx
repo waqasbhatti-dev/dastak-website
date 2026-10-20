@@ -80,26 +80,26 @@ export const FeedbackSection: React.FC<FeedbackSectionProps> = ({ lang }) => {
   };
 
   return (
-    <section id="feedback" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#091124]">
+    <section id="feedback" className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#091124] border-t border-slate-800/80 scroll-mt-20">
       <div className="max-w-3xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#F5B041]/30 text-xs font-semibold text-[#FFE89E] mb-3">
             <MessageSquare className="w-3.5 h-3.5 text-[#F5B041]" />
             <span>{lang === 'ur' ? 'شفاف رائے' : 'Genuine Impressions'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             {t.feedback.title}
           </h2>
 
-          <p className="mt-2 text-sm sm:text-base text-slate-300">
+          <p className="mt-2.5 text-sm sm:text-base text-slate-300">
             {t.feedback.subtitle}
           </p>
         </div>
 
         {/* Feedback Card */}
-        <div className="rounded-3xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-700/80 p-6 sm:p-10 shadow-2xl">
+        <div className="rounded-2xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-800 p-5 sm:p-8 lg:p-10 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Interactive 5-Star Selector (Keyboard, Mouse, & Touch Accessible) */}
             <div className="text-center pb-2">
@@ -155,7 +155,7 @@ export const FeedbackSection: React.FC<FeedbackSectionProps> = ({ lang }) => {
                 <select
                   value={feedback.category}
                   onChange={(e) => setFeedback({ ...feedback, category: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                 >
                   {t.feedback.categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -174,7 +174,7 @@ export const FeedbackSection: React.FC<FeedbackSectionProps> = ({ lang }) => {
                   value={feedback.customerName}
                   onChange={(e) => setFeedback({ ...feedback, customerName: e.target.value })}
                   placeholder={t.feedback.namePlaceholder}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                 />
               </div>
             </div>
@@ -190,7 +190,7 @@ export const FeedbackSection: React.FC<FeedbackSectionProps> = ({ lang }) => {
                 value={feedback.comments}
                 onChange={(e) => setFeedback({ ...feedback, comments: e.target.value })}
                 placeholder={t.feedback.commentPlaceholder}
-                className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
               />
             </div>
 

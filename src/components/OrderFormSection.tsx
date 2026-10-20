@@ -365,26 +365,26 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
   };
 
   return (
-    <section id="order-form" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E]">
+    <section id="order-form" className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E] border-t border-slate-800/80 scroll-mt-20">
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#25D366]/40 text-xs font-semibold text-[#25D366] mb-3">
             <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
             <span>{lang === 'ur' ? 'آسان اور فوری طریقہ' : 'Simple & Direct'}</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             {t.order.title}
           </h2>
 
-          <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+          <p className="mt-2.5 text-sm sm:text-base text-slate-300">
             {t.order.subtitle}
           </p>
         </div>
 
         {/* The Order Form Card */}
-        <div className="relative rounded-3xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-700/80 shadow-2xl p-6 sm:p-10">
+        <div className="relative rounded-2xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-800 shadow-xl p-5 sm:p-8 lg:p-10">
           <form onSubmit={handleReviewOrder} className="space-y-6">
             {/* Order Category Selector */}
             <div>
@@ -447,7 +447,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                   placeholder={t.order.fullNamePlaceholder}
-                  className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:border-transparent transition-all"
                 />
               </div>
 
@@ -462,7 +462,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder={t.order.phonePlaceholder}
-                  className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:border-transparent transition-all"
                 />
               </div>
             </div>
@@ -483,7 +483,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                     value={formData.block}
                     onChange={(e) => setFormData({ ...formData, block: e.target.value })}
                     placeholder={t.order.blockPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                   />
                 </div>
 
@@ -497,7 +497,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                     value={formData.street}
                     onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                     placeholder={t.order.streetPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                   />
                 </div>
 
@@ -511,7 +511,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                     value={formData.houseNumber}
                     onChange={(e) => setFormData({ ...formData, houseNumber: e.target.value })}
                     placeholder={t.order.houseNumberPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
                   />
                 </div>
               </div>
@@ -534,7 +534,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                     value={formData.parcelPickupLocation}
                     onChange={(e) => setFormData({ ...formData, parcelPickupLocation: e.target.value })}
                     placeholder={t.order.parcelPickupPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                   />
                 </div>
 
@@ -547,7 +547,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                     value={formData.parcelDropoffLocation}
                     onChange={(e) => setFormData({ ...formData, parcelDropoffLocation: e.target.value })}
                     placeholder={t.order.parcelDropoffPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
                   />
                 </div>
               </div>
@@ -564,7 +564,7 @@ export const OrderFormSection: React.FC<OrderFormSectionProps> = ({
                 value={formData.orderDetails}
                 onChange={(e) => setFormData({ ...formData, orderDetails: e.target.value })}
                 placeholder={t.order.detailsPlaceholder}
-                className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:border-transparent transition-all"
+                className="w-full px-4 py-3 rounded-xl bg-[#070D1E] border border-slate-700 text-white placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:border-transparent transition-all"
               />
             </div>
 

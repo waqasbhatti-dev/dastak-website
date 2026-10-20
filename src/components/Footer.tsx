@@ -67,11 +67,11 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               </li>
               <li>
                 <a
-                  href="#order-form"
-                  onClick={(e) => handleNavClick(e, '#order-form')}
+                  href="#welcome-voice"
+                  onClick={(e) => handleNavClick(e, '#welcome-voice')}
                   className="hover:text-[#FFE89E] transition-colors"
                 >
-                  {t.nav.order}
+                  {t.nav.voice}
                 </a>
               </li>
               <li>
@@ -85,11 +85,20 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               </li>
               <li>
                 <a
-                  href="#about"
-                  onClick={(e) => handleNavClick(e, '#about')}
+                  href="#how-it-works"
+                  onClick={(e) => handleNavClick(e, '#how-it-works')}
                   className="hover:text-[#FFE89E] transition-colors"
                 >
-                  {t.nav.about}
+                  {t.nav.howItWorks}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#order-form"
+                  onClick={(e) => handleNavClick(e, '#order-form')}
+                  className="hover:text-[#FFE89E] transition-colors"
+                >
+                  {t.nav.order}
                 </a>
               </li>
               <li>
@@ -103,11 +112,29 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               </li>
               <li>
                 <a
+                  href="#about"
+                  onClick={(e) => handleNavClick(e, '#about')}
+                  className="hover:text-[#FFE89E] transition-colors"
+                >
+                  {t.nav.about}
+                </a>
+              </li>
+              <li>
+                <a
                   href="#feedback"
                   onClick={(e) => handleNavClick(e, '#feedback')}
                   className="hover:text-[#FFE89E] transition-colors"
                 >
                   {t.nav.feedback}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, '#contact')}
+                  className="hover:text-[#FFE89E] transition-colors"
+                >
+                  {t.nav.contact}
                 </a>
               </li>
             </ul>
