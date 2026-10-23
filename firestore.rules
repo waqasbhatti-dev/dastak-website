@@ -18,7 +18,7 @@ service cloud.firestore {
     function isValidPendingFeedback(data) {
       return data.keys().hasAll(['rating', 'comment', 'status', 'createdAt'])
         && data.keys().hasOnly(['rating', 'comment', 'status', 'createdAt', 'displayName', 'category'])
-        && data.rating is int
+        && (data.rating is int || data.rating is number)
         && data.rating >= 1
         && data.rating <= 5
         && data.comment is string

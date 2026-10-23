@@ -72,11 +72,11 @@ export const Hero3D: React.FC = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          {/* Main Hero Copy (7 cols on lg) */}
-          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* Main Hero Copy (Mobile: 3. Headline/intro & 4. Primary buttons; Desktop: Left 7 cols) */}
+          <div className="order-2 lg:order-1 lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start">
             {/* Area Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1E3D]/90 border border-[#F5B041]/35 shadow-lg shadow-black/40 backdrop-blur-md mb-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1E3D]/90 border border-[#F5B041]/35 shadow-lg shadow-black/40 backdrop-blur-md mb-4 sm:mb-5">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#25D366]" />
@@ -101,7 +101,7 @@ export const Hero3D: React.FC = () => {
             </div>
 
             {/* Main English Headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
               Fast & Reliable{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFE89E] via-[#F5B041] to-[#E5A93C]">
                 Neighborhood Delivery
@@ -109,17 +109,17 @@ export const Hero3D: React.FC = () => {
             </h1>
 
             {/* Slogan */}
-            <p className="mt-2 text-lg sm:text-xl font-bold text-[#FFE89E] tracking-wide">
+            <p className="mt-2 text-base sm:text-xl font-bold text-[#FFE89E] tracking-wide">
               “{t.tagline}”
             </p>
 
-            {/* Supporting Paragraph */}
-            <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+            {/* Supporting Paragraph / Service Introduction */}
+            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-300 max-w-2xl leading-relaxed">
               {t.hero.subtitle}
             </p>
 
             {/* Status Notice Banner */}
-            <div className="mt-6 w-full max-w-xl p-3.5 sm:p-4 rounded-2xl bg-[#0F1E3D]/80 border border-[#F5B041]/25 text-start flex items-start gap-3 backdrop-blur-md">
+            <div className="mt-5 sm:mt-6 w-full max-w-xl p-3.5 sm:p-4 rounded-2xl bg-[#0F1E3D]/80 border border-[#F5B041]/25 text-start flex items-start gap-3 backdrop-blur-md">
               <Clock className="w-5 h-5 text-[#F5B041] shrink-0 mt-0.5" />
               <div className="text-xs sm:text-sm">
                 <span className="font-bold text-white block">
@@ -131,14 +131,14 @@ export const Hero3D: React.FC = () => {
               </div>
             </div>
 
-            {/* Call to Action Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
+            {/* 4. Call to Action Primary Buttons */}
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
               {/* Primary CTA: WhatsApp Contact */}
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] shadow-xl shadow-[#25D366]/25 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] shadow-xl shadow-[#25D366]/25 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-[#25D366]"
                 aria-label={`Contact Dastak on WhatsApp ${WHATSAPP_DISPLAY_PHONE}`}
               >
                 <MessageCircle className="w-5 h-5 fill-white text-transparent" />
@@ -149,7 +149,7 @@ export const Hero3D: React.FC = () => {
               <a
                 href="#services"
                 onClick={scrollToServices}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-[#FFE89E] hover:text-white bg-[#0F1E3D] hover:bg-[#162A56] border border-[#F5B041]/40 hover:border-[#F5B041] transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+                className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-[#FFE89E] hover:text-white bg-[#0F1E3D] hover:bg-[#162A56] border border-[#F5B041]/40 hover:border-[#F5B041] transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
               >
                 <span>{t.hero.btnServices}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -157,17 +157,17 @@ export const Hero3D: React.FC = () => {
             </div>
 
             {/* Trust Badges */}
-            <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-xs text-slate-400">
+            <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-4 text-xs text-slate-400">
               <span className="inline-flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-[#25D366]" />
                 <span className="text-slate-300 font-medium">Delivery & Pick & Drop</span>
               </span>
-              <span className="text-slate-600">•</span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="inline-flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-[#F5B041]" />
                 <span className="text-slate-300">Jhelum City, Pakistan</span>
               </span>
-              <span className="text-slate-600">•</span>
+              <span className="text-slate-600 hidden sm:inline">•</span>
               <span className="inline-flex items-center gap-1.5">
                 <PhoneCall className="w-3.5 h-3.5 text-[#F5B041]" />
                 <span className="font-mono">{WHATSAPP_DISPLAY_PHONE}</span>
@@ -175,8 +175,8 @@ export const Hero3D: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: 3D Video Commercial Frame Preview (5 cols on lg) */}
-          <div className="lg:col-span-5 w-full flex justify-center">
+          {/* 2. Top Hero Area: 3D Video Commercial Frame Preview (Mobile: First; Desktop: Right 5 cols) */}
+          <div className="order-1 lg:order-2 lg:col-span-5 w-full flex justify-center">
             <div className="relative w-full max-w-md rounded-3xl bg-gradient-to-b from-[#0F1E3D]/95 via-[#0A1428]/95 to-[#070D1E]/95 border border-slate-800 p-5 sm:p-6 shadow-2xl backdrop-blur-xl">
               {/* Commercial Card Header */}
               <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">

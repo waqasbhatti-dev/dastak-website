@@ -14,11 +14,11 @@ export const FaqSection: React.FC = () => {
   return (
     <section
       id="faq"
-      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E] border-t border-slate-800/80 scroll-mt-20"
+      className="relative z-10 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E] border-t border-slate-800/80 scroll-mt-24"
     >
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#F5B041]/30 text-xs font-semibold text-[#FFE89E] mb-3">
             <HelpCircle className="w-3.5 h-3.5 text-[#F5B041]" />
             <span>{t.faq.badge}</span>
@@ -56,7 +56,7 @@ export const FaqSection: React.FC = () => {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => toggleAccordion(item.id)}
-                    className="w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-start rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#F5B041] cursor-pointer"
+                    className="w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between gap-4 text-start rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#F5B041] cursor-pointer"
                   >
                     <span className="flex items-center gap-3">
                       <span className="w-7 h-7 rounded-lg bg-[#162A56] border border-slate-700/80 text-[#FFE89E] text-xs font-mono font-bold flex items-center justify-center shrink-0">
