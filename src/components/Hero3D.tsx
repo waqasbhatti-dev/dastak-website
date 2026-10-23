@@ -1,192 +1,270 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, ShoppingCart, Sparkles, MapPin, ShieldCheck, Clock } from 'lucide-react';
-import { Language } from '../types';
-import { translations, WHATSAPP_URL, WHATSAPP_NUMBER } from '../constants/translations';
-import { StarParticlesCanvas } from './StarParticlesCanvas';
+import React, { useState, useRef } from 'react';
+import {
+  MessageCircle,
+  Clock,
+  CheckCircle2,
+  PhoneCall,
+  ArrowRight,
+  MapPin,
+} from 'lucide-react';
+import {
+  translations,
+  WHATSAPP_URL,
+  WHATSAPP_DISPLAY_PHONE,
+  WHATSAPP_LOCAL_PHONE,
+} from '../constants/translations';
 
-interface Hero3DProps {
-  lang: Language;
-  onLanguageChange?: (lang: Language) => void;
-}
+/**
+ * PRODUCTION-READY 3D VIDEO GENERATION PROMPT (For AI Video Models e.g. Veo 2 / Sora):
+ * 
+ * Prompt: "Cinematic commercial 30-second continuous seamless loop for professional local delivery brand 'Dastak'.
+ * Scene 1 (0-5s): A friendly, professional delivery courier wearing an emerald green (#25D366) and navy jacket with gold accents runs dynamically toward the camera in a modern sunlit residential avenue in Jhelum, Pakistan. Natural motion blur, warm rim lighting.
+ * Scene 2 (5-10s): Courier slows to a confident stop; several realistic cardboard parcel boxes with gold foil Dastak branding emerge and float into an elegant arrangement.
+ * Scene 3 (10-16s): Parcel boxes open smoothly to showcase delivery essentials: fresh groceries, medicine bottles, food orders, and express courier packages.
+ * Scene 4 (16-22s): Courier picks up parcel and strides through clean residential community streets of Jhelum City Housing under emerald-green and golden hour lighting.
+ * Scene 5 (22-27s): Courier presents a package toward the camera; composition locks on the brand identity 'Dastak | دستک' with glowing gold calligraphy and slogan 'Your Needs, Our Responsibility'.
+ * Scene 6 (27-30s): Smooth camera tracking and character return to the exact initial framing and lighting, creating an invisible, seamless 30-second loop. 4K, 30fps, photorealistic Octane 3D render."
+ */
 
-export const Hero3D: React.FC<Hero3DProps> = ({ lang, onLanguageChange }) => {
-  const t = translations[lang];
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [isInteracting, setIsInteracting] = useState(false);
+export const Hero3D: React.FC = () => {
+  const t = translations;
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoError, setVideoError] = useState<boolean>(false);
 
-  // Mouse tilt parallax calculation
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    // Normalized tilt
-    const tiltX = -(y / (rect.height / 2)) * 9;
-    const tiltY = (x / (rect.width / 2)) * 12;
-    setTilt({ x: tiltX, y: tiltY });
-    setIsInteracting(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsInteracting(false);
-    setTilt({ x: 0, y: 0 });
-  };
-
-  const handleScrollToOrder = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const scrollToServices = (e: React.MouseEvent) => {
     e.preventDefault();
-    const target = document.querySelector('#order-form');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.querySelector('#services');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section
       id="home"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative min-h-[90vh] sm:min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden bg-gradient-to-b from-[#070D1E] via-[#0A152E] to-[#070D1E] scroll-mt-20"
+      className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-16 sm:py-28 px-4 sm:px-6 lg:px-8 bg-[#070D1E] overflow-hidden scroll-mt-20"
     >
-      {/* Dynamic Star Particles Canvas */}
-      <StarParticlesCanvas />
+      {/* 3D Cinematic Commercial Video Background / Stage */}
+      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
+        {/* Real 30-second looping video with poster fallback - completely silent */}
+        {!videoError ? (
+          <video
+            ref={videoRef}
+            src="/videos/dastak_hero_commercial.mp4"
+            poster="/src/assets/images/dastak_hero_poster_1792668689441.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            onError={() => setVideoError(true)}
+            className="w-full h-full object-cover object-center opacity-30 sm:opacity-35 scale-105 transition-opacity duration-700"
+          />
+        ) : (
+          <img
+            src="/src/assets/images/dastak_hero_poster_1792668689441.jpg"
+            alt="Dastak 3D Delivery Courier"
+            className="w-full h-full object-cover object-center opacity-30"
+          />
+        )}
 
-      {/* Layered Lighting & Glow Ambience */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        {/* Core Golden Aura */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[580px] h-[300px] sm:h-[480px] bg-gradient-to-tr from-[#F5B041]/15 via-[#AA771C]/10 to-transparent rounded-full blur-[90px]" />
-        {/* Deep Navy Highlight */}
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[650px] h-[400px] bg-[#1A3670]/25 rounded-full blur-[110px]" />
-        {/* Subtle geometric orbital ring */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[520px] h-[280px] sm:h-[520px] rounded-full border border-[#F5B041]/10 opacity-60 animate-[spin_40s_linear_infinite]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[680px] h-[340px] sm:h-[680px] rounded-full border border-dashed border-[#F5B041]/10 opacity-30 animate-[spin_70s_linear_infinite_reverse]" />
+        {/* Cinematic Lighting & Contrast Gradient Overlays (Ensures text readability) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070D1E] via-[#070D1E]/80 to-[#070D1E]/60" />
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#070D1E]/40 to-[#070D1E]" />
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
-        {/* Service Area Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1E3D]/80 border border-[#F5B041]/35 shadow-lg shadow-black/40 backdrop-blur-md mb-6 animate-in fade-in slide-in-from-top-3 duration-500">
-          <MapPin className="w-4 h-4 text-[#F5B041] animate-pulse" />
-          <span className="text-xs sm:text-sm font-semibold text-[#FFE89E] tracking-wide">
-            {t.hero.badge}
-          </span>
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#25D366] animate-ping" />
-        </div>
+      <div className="relative z-10 max-w-7xl mx-auto w-full">
 
-        {/* 3D Cinematic Wordmark Stage */}
-        <div className="hero-3d-stage my-2 sm:my-4 w-full flex flex-col items-center select-none">
-          <div
-            className="floating-3d-card relative px-4 py-3 sm:px-8 sm:py-6"
-            style={{
-              transform: isInteracting
-                ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale3d(1.03, 1.03, 1.03)`
-                : undefined,
-              transition: isInteracting ? 'transform 0.1s ease-out' : 'transform 0.8s ease-out',
-            }}
-          >
-            {/* Ambient Back Glow Behind Logo */}
-            <div className="absolute inset-0 bg-[#F5B041]/10 filter blur-2xl rounded-3xl -z-10" />
-
-            {/* Urdu Brand Display (Calligraphic / Arabic typography) */}
-            <div className="urdu-3d-title text-4xl sm:text-5xl md:text-6xl mb-1 tracking-normal font-black drop-shadow-2xl">
-              دستک
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          {/* Main Hero Copy (7 cols on lg) */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start">
+            {/* Area Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F1E3D]/90 border border-[#F5B041]/35 shadow-lg shadow-black/40 backdrop-blur-md mb-5">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#25D366]" />
+              </span>
+              <span className="text-xs font-semibold text-[#FFE89E] tracking-wide">
+                {t.hero.badge}
+              </span>
             </div>
 
-            {/* Main 3D DASTAK Extruded Wordmark */}
-            <div className="relative glint-effect inline-block py-1">
-              <h1 className="dastak-3d-wordmark text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.08em] sm:tracking-[0.14em]">
-                DASTAK
-              </h1>
+            {/* Dastak | دستک Brand Lockup */}
+            <div className="flex items-center gap-3 mb-3">
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-widest flex items-center gap-2">
+                <span>Dastak</span>
+                <span className="text-slate-500 font-normal">|</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#FFE89E] via-[#F5B041] to-[#D4AF37]">
+                  دستک
+                </span>
+              </h2>
+              <span className="text-[10px] uppercase font-bold text-[#25D366] px-2 py-0.5 rounded-full bg-[#25D366]/10 border border-[#25D366]/30">
+                Live Dispatch
+              </span>
             </div>
 
-            {/* Orbiting Golden Star Accents */}
-            <div
-              className="hidden sm:flex items-center justify-center gap-3 mt-1 text-[#F5B041] text-xs font-semibold tracking-widest uppercase opacity-85"
-              aria-hidden="true"
-            >
-              <span className="w-10 h-[1px] bg-gradient-to-r from-transparent to-[#F5B041]" />
-              <Sparkles className="w-3.5 h-3.5 text-[#FFE89E] animate-spin" style={{ animationDuration: '8s' }} />
-              <span className="text-[11px] text-[#FFE89E]">EXPRESS DELIVERY</span>
-              <Sparkles className="w-3.5 h-3.5 text-[#FFE89E] animate-spin" style={{ animationDuration: '8s' }} />
-              <span className="w-10 h-[1px] bg-gradient-to-l from-transparent to-[#F5B041]" />
+            {/* Main English Headline */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+              Fast & Reliable{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFE89E] via-[#F5B041] to-[#E5A93C]">
+                Neighborhood Delivery
+              </span>
+            </h1>
+
+            {/* Slogan */}
+            <p className="mt-2 text-lg sm:text-xl font-bold text-[#FFE89E] tracking-wide">
+              “{t.tagline}”
+            </p>
+
+            {/* Supporting Paragraph */}
+            <p className="mt-4 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+              {t.hero.subtitle}
+            </p>
+
+            {/* Status Notice Banner */}
+            <div className="mt-6 w-full max-w-xl p-3.5 sm:p-4 rounded-2xl bg-[#0F1E3D]/80 border border-[#F5B041]/25 text-start flex items-start gap-3 backdrop-blur-md">
+              <Clock className="w-5 h-5 text-[#F5B041] shrink-0 mt-0.5" />
+              <div className="text-xs sm:text-sm">
+                <span className="font-bold text-white block">
+                  {t.statusOperating}
+                </span>
+                <span className="text-slate-400 text-[11px] block mt-0.5">
+                  {t.statusSubtext}
+                </span>
+              </div>
+            </div>
+
+            {/* Call to Action Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto">
+              {/* Primary CTA: WhatsApp Contact */}
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-[#25D366] hover:bg-[#1EBE5D] shadow-xl shadow-[#25D366]/25 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-[#25D366]"
+                aria-label={`Contact Dastak on WhatsApp ${WHATSAPP_DISPLAY_PHONE}`}
+              >
+                <MessageCircle className="w-5 h-5 fill-white text-transparent" />
+                <span>{t.hero.btnWhatsApp}</span>
+              </a>
+
+              {/* Secondary CTA: Our Services */}
+              <a
+                href="#services"
+                onClick={scrollToServices}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-[#FFE89E] hover:text-white bg-[#0F1E3D] hover:bg-[#162A56] border border-[#F5B041]/40 hover:border-[#F5B041] transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+              >
+                <span>{t.hero.btnServices}</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 text-xs text-slate-400">
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-[#25D366]" />
+                <span className="text-slate-300 font-medium">Delivery & Pick & Drop</span>
+              </span>
+              <span className="text-slate-600">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#F5B041]" />
+                <span className="text-slate-300">Jhelum City, Pakistan</span>
+              </span>
+              <span className="text-slate-600">•</span>
+              <span className="inline-flex items-center gap-1.5">
+                <PhoneCall className="w-3.5 h-3.5 text-[#F5B041]" />
+                <span className="font-mono">{WHATSAPP_DISPLAY_PHONE}</span>
+              </span>
             </div>
           </div>
-        </div>
 
-        {/* Primary Slogans (Urdu & English) */}
-        <div className="mt-4 sm:mt-6 max-w-2xl mx-auto space-y-2">
-          {/* Urdu Slogan */}
-          <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#FFFFFF] via-[#FFE89E] to-[#FFFFFF] drop-shadow-md leading-relaxed">
-            “{t.taglineUrdu}”
-          </p>
+          {/* Right Column: 3D Video Commercial Frame Preview (5 cols on lg) */}
+          <div className="lg:col-span-5 w-full flex justify-center">
+            <div className="relative w-full max-w-md rounded-3xl bg-gradient-to-b from-[#0F1E3D]/95 via-[#0A1428]/95 to-[#070D1E]/95 border border-slate-800 p-5 sm:p-6 shadow-2xl backdrop-blur-xl">
+              {/* Commercial Card Header */}
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#162A56] border border-[#F5B041]/40 flex items-center justify-center font-black text-sm text-[#FFE89E]">
+                    د
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-white block">
+                      Dastak | دستک
+                    </span>
+                    <span className="text-[10px] text-slate-400 block">
+                      3D Brand Commercial • 30s Loop
+                    </span>
+                  </div>
+                </div>
 
-          {/* English Slogan */}
-          <p className="text-base sm:text-lg md:text-xl font-medium text-slate-300 tracking-wide">
-            “{t.taglineEnglish}”
-          </p>
-        </div>
+                <span className="px-2 py-0.5 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 text-[10px] font-bold text-[#25D366] flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-pulse" />
+                  CONTINUOUS LOOP
+                </span>
+              </div>
 
-        {/* Brand Status Box (Service Operating / App Coming Soon) */}
-        <div className="mt-6 sm:mt-8 max-w-xl mx-auto p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-[#0F1E3D]/90 to-[#0A1428]/90 border border-[#F5B041]/30 shadow-xl shadow-black/50 backdrop-blur-md">
-          <div className="flex items-center justify-center gap-2 mb-2 text-[#25D366] text-xs sm:text-sm font-bold">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#25D366]"></span>
-            </span>
-            <span>سروس فعال ہے • SERVICE IS CURRENTLY OPERATING</span>
+              {/* Video Player Display Container */}
+              <div className="relative my-4 rounded-2xl overflow-hidden border border-slate-800 bg-[#040814] aspect-video flex items-center justify-center group">
+                <video
+                  src="/videos/dastak_hero_commercial.mp4"
+                  poster="/src/assets/images/dastak_hero_poster_1792668689441.jpg"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                />
+
+                {/* Subtitle badge on video */}
+                <div className="absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-md bg-[#070D1E]/85 border border-slate-800 text-[10px] text-slate-300 font-mono">
+                  30s Cinematic 3D Loop
+                </div>
+              </div>
+
+              {/* Storyboard Step Details */}
+              <div className="space-y-1.5 text-[11px] text-slate-300">
+                <div className="flex items-center justify-between text-slate-400 pb-1 border-b border-slate-800/80">
+                  <span className="font-semibold text-white">Commercial Storyboard:</span>
+                  <span className="text-[#FFE89E] font-mono">0:00 - 0:30</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>1. Fast Arrival & Sprint</span>
+                  <span className="text-[#25D366]">0-5s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>2. Parcel Reveal & Pose</span>
+                  <span className="text-[#25D366]">5-10s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>3. Groceries, Medicines & Food</span>
+                  <span className="text-[#25D366]">10-16s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>4. Speed & Residential Reliability</span>
+                  <span className="text-[#25D366]">16-22s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-white">5. Brand Moment: Dastak | دستک</span>
+                  <span className="text-[#FFE89E]">22-27s</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>6. Seamless Loop Transition</span>
+                  <span className="text-[#25D366]">27-30s</span>
+                </div>
+              </div>
+
+              {/* Direct WhatsApp Callout in card */}
+              <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                <span className="text-slate-400">Direct Dispatch:</span>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-[#25D366] hover:underline flex items-center gap-1 font-mono"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                  <span>{WHATSAPP_LOCAL_PHONE}</span>
+                </a>
+              </div>
+            </div>
           </div>
-
-          <p className="text-base sm:text-lg font-bold text-white leading-relaxed">
-            {t.statusUrdu}
-          </p>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
-            {t.statusEnglish}
-          </p>
-
-          <div className="mt-3 pt-2.5 border-t border-slate-700/60 flex items-center justify-center gap-1.5 text-[11px] text-amber-300/80">
-            <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>{t.statusSubtext}</span>
-          </div>
-        </div>
-
-        {/* Hero Action Buttons: Primary 'Place an Order' + Secondary 'Our Services' */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md px-2">
-          {/* Primary Button: Place an Order */}
-          <a
-            href="#order-form"
-            onClick={handleScrollToOrder}
-            className="w-full sm:w-auto flex-1 group inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-bold text-[#070D1E] bg-gradient-to-r from-[#FFE89E] via-[#F5B041] to-[#E5A93C] hover:from-[#FFF1BD] hover:to-[#F5B041] shadow-lg shadow-[#F5B041]/25 hover:shadow-xl hover:shadow-[#F5B041]/35 hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:ring-offset-2 focus:ring-offset-[#070D1E]"
-          >
-            <ShoppingCart className="w-5 h-5 text-[#070D1E] group-hover:scale-110 transition-transform" />
-            <span>{t.hero.btnOrder}</span>
-          </a>
-
-          {/* Secondary Button: Our Services */}
-          <a
-            href="#services"
-            onClick={(e) => {
-              e.preventDefault();
-              const target = document.querySelector('#services');
-              if (target) target.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="w-full sm:w-auto flex-1 group inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-base font-bold text-[#FFE89E] hover:text-white bg-[#0F1E3D]/80 hover:bg-[#162A56] border border-[#F5B041]/40 hover:border-[#F5B041] shadow-md shadow-black/40 hover:-translate-y-0.5 active:translate-y-0 transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041] focus:ring-offset-2 focus:ring-offset-[#070D1E]"
-          >
-            <Sparkles className="w-4 h-4 text-[#F5B041] group-hover:rotate-12 transition-transform" />
-            <span>{t.hero.btnServices}</span>
-          </a>
-        </div>
-
-        {/* Assurance badges */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
-          <span className="inline-flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#F5B041]" />
-            <span>کوئی رجسٹریشن یا پاس ورڈ کی ضرورت نہیں</span>
-          </span>
-          <span className="hidden sm:inline text-slate-600">•</span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F5B041]" />
-            <span>03049457463 پر فون اور واٹس ایپ رابطہ</span>
-          </span>
         </div>
       </div>
     </section>

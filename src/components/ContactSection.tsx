@@ -1,20 +1,16 @@
 import React from 'react';
 import { Phone, MessageCircle, MapPin, Clock, ShieldCheck, ExternalLink, Sparkles } from 'lucide-react';
-import { Language } from '../types';
 import {
   translations,
   WHATSAPP_NUMBER,
-  WHATSAPP_INTL_NUMBER,
+  WHATSAPP_DISPLAY_PHONE,
+  WHATSAPP_LOCAL_PHONE,
   WHATSAPP_URL,
   SOCIAL_LINKS,
 } from '../constants/translations';
 
-interface ContactSectionProps {
-  lang: Language;
-}
-
-export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
-  const t = translations[lang];
+export const ContactSection: React.FC = () => {
+  const t = translations;
 
   const socialLinks = [
     {
@@ -29,7 +25,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
         </svg>
       ),
       hoverBorder: 'hover:border-[#00F2FE]/50',
-      actionText: lang === 'ur' ? 'ٹک ٹاک دیکھیں' : 'View TikTok',
+      actionText: 'View TikTok',
     },
     {
       id: 'facebook',
@@ -43,7 +39,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
         </svg>
       ),
       hoverBorder: 'hover:border-[#1877F2]/50',
-      actionText: lang === 'ur' ? 'ویڈیو دیکھیں' : 'Watch Video',
+      actionText: 'Watch Video',
     },
     {
       id: 'instagram',
@@ -57,22 +53,26 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
         </svg>
       ),
       hoverBorder: 'hover:border-[#E1306C]/50',
-      actionText: lang === 'ur' ? 'ریل دیکھیں' : 'Watch Reel',
+      actionText: 'Watch Reel',
     },
   ];
 
   return (
-    <section id="contact" className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E] border-t border-slate-800/80 scroll-mt-20">
+    <section
+      id="contact"
+      className="relative py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#070D1E] border-t border-slate-800/80 scroll-mt-20"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#25D366]/30 text-xs font-semibold text-[#25D366] mb-3">
             <Phone className="w-3.5 h-3.5" />
-            <span>{lang === 'ur' ? 'براہِ راست رابطہ و سوشل میڈیا' : 'Direct Contact & Social Media'}</span>
+            <span>{t.contact.badge}</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            {t.contact.title}
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight flex items-center justify-center gap-2">
+            <span>Contact</span>
+            <span className="text-[#FFE89E]">Dastak | دستک</span>
           </h2>
 
           <p className="mt-2.5 text-sm sm:text-base text-slate-300">
@@ -96,10 +96,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
 
               <div className="space-y-1 mb-4">
                 <span className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight block">
-                  {WHATSAPP_NUMBER}
+                  {WHATSAPP_DISPLAY_PHONE}
                 </span>
-                <span className="text-xs text-slate-400 block">
-                  International: +{WHATSAPP_INTL_NUMBER}
+                <span className="text-xs text-slate-400 block font-mono">
+                  Local dial: {WHATSAPP_LOCAL_PHONE}
                 </span>
               </div>
 
@@ -111,11 +111,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
               <div className="space-y-2 pt-2 border-t border-slate-800/80 text-xs text-slate-400">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
-                  <span>{lang === 'ur' ? 'مقامی تصدیق شدہ سروس — براہ راست رابطہ' : 'Locally verified delivery operations with direct dispatch'}</span>
+                  <span>{t.contact.assurances[0]}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5 text-[#F5B041] shrink-0" />
-                  <span>{lang === 'ur' ? 'موبائل ایپ کی تیاری جاری ہے — فون اور واٹس ایپ فعال ہے' : 'Mobile application is in progress — Phone & WhatsApp are active'}</span>
+                  <span>{t.contact.assurances[1]}</span>
                 </div>
               </div>
             </div>
@@ -133,7 +133,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
               </a>
 
               <a
-                href={`tel:${WHATSAPP_NUMBER}`}
+                href={`tel:03049574463`}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#16284F] hover:bg-[#1C3366] border border-[#F5B041]/30 text-[#FFE89E] text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
               >
                 <Phone className="w-4 h-4 text-[#F5B041]" />
@@ -160,9 +160,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                 </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                {lang === 'ur'
-                  ? 'دستک کا دائرہ کار Jhelum City Housing، جہلم کے لیے مخصوص ہے۔ کسی بھی مخصوص پوائنٹ کے لیے رابطہ فرمائیں۔'
-                  : 'Official operations dedicated to Jhelum City Housing, Jhelum. Contact us to verify coverage for specific points.'}
+                {t.contact.locationDesc}
               </p>
             </div>
 
@@ -175,7 +173,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ lang }) => {
                     <span>{t.social.title}</span>
                   </span>
                   <span className="text-[10px] text-slate-400">
-                    {lang === 'ur' ? 'آفیشل لنکس' : 'Verified Links'}
+                    Verified Channels
                   </span>
                 </div>
 

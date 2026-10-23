@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, Globe, PhoneCall } from 'lucide-react';
-import { Language } from '../types';
-import { translations, WHATSAPP_URL, WHATSAPP_NUMBER } from '../constants/translations';
+import { Menu, X, MessageCircle, PhoneCall } from 'lucide-react';
+import {
+  translations,
+  WHATSAPP_URL,
+  WHATSAPP_DISPLAY_PHONE,
+  WHATSAPP_LOCAL_PHONE,
+} from '../constants/translations';
 
-interface NavbarProps {
-  lang: Language;
-  onToggleLanguage: () => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
+export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const t = translations[lang];
+  const t = translations;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,13 +22,13 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
 
   const navItems = [
     { label: t.nav.home, href: '#home' },
-    { label: t.nav.voice, href: '#welcome-voice' },
     { label: t.nav.services, href: '#services' },
     { label: t.nav.howItWorks, href: '#how-it-works' },
-    { label: t.nav.order, href: '#order-form' },
     { label: t.nav.area, href: '#service-area' },
     { label: t.nav.about, href: '#about' },
+    { label: t.nav.blog, href: '#blog' },
     { label: t.nav.feedback, href: '#feedback' },
+    { label: t.nav.faq, href: '#faq' },
     { label: t.nav.contact, href: '#contact' },
   ];
 
@@ -52,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo Brand */}
+          {/* Logo Brand: Dastak | دستک */}
           <a
             href="#home"
             onClick={(e) => handleNavClick(e, '#home')}
@@ -64,9 +63,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
               </span>
               <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-[#F5B041]/20 to-transparent blur opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-black tracking-wider text-white group-hover:text-[#FFE89E] transition-colors flex items-center gap-1.5">
-                DASTAK
+            <div className="flex flex-col text-start">
+              <span className="text-base sm:text-lg font-black tracking-wider text-white group-hover:text-[#FFE89E] transition-colors flex items-center gap-1.5">
+                <span>Dastak</span>
+                <span className="text-slate-500 font-normal">|</span>
                 <span className="text-xs font-bold text-[#F5B041] px-1.5 py-0.5 rounded bg-[#F5B041]/10 border border-[#F5B041]/30">
                   دستک
                 </span>
@@ -93,18 +93,6 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
 
           {/* Right Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Language Switcher */}
-            <button
-              onClick={onToggleLanguage}
-              type="button"
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border border-[#F5B041]/30 bg-[#0B1528] text-[#FFE89E] hover:border-[#F5B041] hover:bg-[#122347] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
-              title={lang === 'ur' ? 'Switch to English' : 'اردو میں تبدیل کریں'}
-              aria-label="Language Switcher"
-            >
-              <Globe className="w-3.5 h-3.5 text-[#F5B041]" />
-              <span>{lang === 'ur' ? 'English' : 'اردو'}</span>
-            </button>
-
             {/* Direct WhatsApp Action */}
             <a
               href={WHATSAPP_URL}
@@ -153,15 +141,15 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, onToggleLanguage }) => {
                   className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#1EBE5D] shadow-lg shadow-[#25D366]/20"
                 >
                   <MessageCircle className="w-4 h-4 fill-white text-transparent" />
-                  <span>WhatsApp: {WHATSAPP_NUMBER}</span>
+                  <span>WhatsApp: {WHATSAPP_LOCAL_PHONE}</span>
                 </a>
 
                 <a
-                  href={`tel:${WHATSAPP_NUMBER}`}
+                  href={`tel:03049574463`}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-[#0F1E3D] text-slate-300 hover:text-white border border-slate-700"
                 >
                   <PhoneCall className="w-3.5 h-3.5 text-[#F5B041]" />
-                  <span>Direct Call: {WHATSAPP_NUMBER}</span>
+                  <span>Direct Call: {WHATSAPP_DISPLAY_PHONE}</span>
                 </a>
               </div>
             </div>

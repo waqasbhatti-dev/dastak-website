@@ -1,19 +1,12 @@
 import React from 'react';
 import { MapPin, CheckCircle2, AlertTriangle, Navigation, MessageCircle } from 'lucide-react';
-import { Language } from '../types';
 import { translations, WHATSAPP_INTL_NUMBER } from '../constants/translations';
 
-interface ServiceAreaSectionProps {
-  lang: Language;
-}
-
-export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) => {
-  const t = translations[lang];
+export const ServiceAreaSection: React.FC = () => {
+  const t = translations;
 
   const verifyLocationWhatsAppUrl = `https://wa.me/${WHATSAPP_INTL_NUMBER}?text=${encodeURIComponent(
-    lang === 'ur'
-      ? 'السلام علیکم دستک! میں جہلم سٹی ہاؤسنگ میں ایک مخصوص پتہ / دکان کے لیے ڈیلیوری کی دستیابی معلوم کرنا چاہتا ہوں۔'
-      : 'Hello Dastak! I would like to confirm delivery availability for a specific location in Jhelum City Housing.'
+    'Hello Dastak! I would like to confirm delivery availability for a specific location in Jhelum City Housing.'
   )}`;
 
   return (
@@ -23,24 +16,21 @@ export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) 
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0F1E3D] border border-[#F5B041]/30 text-xs font-semibold text-[#FFE89E] mb-3">
             <MapPin className="w-3.5 h-3.5 text-[#F5B041]" />
-            <span>{lang === 'ur' ? 'علاقائی دائرہ کار' : 'Geographic Coverage'}</span>
+            <span>{t.serviceArea.badge}</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             {t.serviceArea.title}
           </h2>
 
-          <div className="mt-3 flex flex-col items-center justify-center gap-1">
-            <span className="text-lg sm:text-xl font-bold text-[#FFE89E]">
-              {t.serviceArea.officialNameUrdu}
-            </span>
-            <span className="text-xs sm:text-sm font-semibold text-slate-300">
-              {t.serviceArea.officialNameEnglish}
+          <div className="mt-3 flex items-center justify-center gap-1.5">
+            <span className="text-base sm:text-lg font-bold text-[#FFE89E]">
+              {t.serviceArea.officialNameCombined}
             </span>
           </div>
         </div>
 
-        {/* Main Area Card (Matching the unified premium card system) */}
+        {/* Main Area Card */}
         <div className="relative rounded-2xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-800 p-6 sm:p-8 lg:p-10 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Description & Transparency text */}
@@ -53,7 +43,7 @@ export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) 
               <div className="p-4 rounded-xl bg-[#070D1E]/80 border border-slate-800 space-y-2.5">
                 <div className="text-xs font-bold text-[#F5B041] flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#25D366]" />
-                  <span>{lang === 'ur' ? 'احاطہ شدہ علاقے' : 'Covered Sectors'}</span>
+                  <span>{t.serviceArea.coveredSectorsLabel}</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   {t.serviceArea.blocksServed}
@@ -89,16 +79,12 @@ export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) 
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs sm:text-sm font-bold shadow-md shadow-[#25D366]/20 transition-all focus:outline-none focus:ring-2 focus:ring-[#25D366]"
                 >
                   <MessageCircle className="w-4 h-4 fill-white text-transparent" />
-                  <span>
-                    {lang === 'ur'
-                      ? 'مقام کی دستیابی واٹس ایپ پر معلوم کریں'
-                      : 'Confirm Location Availability on WhatsApp'}
-                  </span>
+                  <span>{t.serviceArea.btnConfirmLocation}</span>
                 </a>
               </div>
             </div>
 
-            {/* Visual Vector Schematic Map Card (Mobile optimized without horizontal overflow) */}
+            {/* Visual Vector Schematic Map Card */}
             <div className="lg:col-span-5 flex flex-col items-center w-full">
               <div className="w-full max-w-sm rounded-xl bg-[#070D1E] border border-slate-800 p-4 sm:p-5 shadow-inner relative overflow-hidden">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-semibold text-slate-300">
@@ -107,7 +93,7 @@ export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) 
                     <span className="truncate">Jhelum City Housing</span>
                   </span>
                   <span className="text-[#25D366] text-[10px] bg-[#25D366]/10 px-2 py-0.5 rounded border border-[#25D366]/30 font-bold shrink-0">
-                    ACTIVE ZONE
+                    {t.serviceArea.activeZoneLabel}
                   </span>
                 </div>
 
@@ -156,7 +142,7 @@ export const ServiceAreaSection: React.FC<ServiceAreaSectionProps> = ({ lang }) 
                 </div>
 
                 <div className="text-[11px] text-slate-400 text-center">
-                  Jhelum, Punjab, Pakistan • فون اور WhatsApp رسائی
+                  Jhelum, Punjab, Pakistan • Direct Phone & WhatsApp Access
                 </div>
               </div>
             </div>

@@ -1,20 +1,15 @@
 import React from 'react';
-import { MessageCircle, Phone, MapPin, Globe } from 'lucide-react';
-import { Language } from '../types';
+import { MessageCircle, Phone, MapPin } from 'lucide-react';
 import {
   translations,
-  WHATSAPP_NUMBER,
+  WHATSAPP_DISPLAY_PHONE,
+  WHATSAPP_LOCAL_PHONE,
   WHATSAPP_URL,
   SOCIAL_LINKS,
 } from '../constants/translations';
 
-interface FooterProps {
-  lang: Language;
-  onToggleLanguage: () => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
-  const t = translations[lang];
+export const Footer: React.FC = () => {
+  const t = translations;
   const currentYear = new Date().getFullYear();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -35,8 +30,12 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               <div className="w-9 h-9 rounded-xl bg-[#0F1E3D] border border-[#F5B041]/40 flex items-center justify-center font-black text-lg text-[#FFE89E]">
                 د
               </div>
-              <span className="text-xl font-black text-white tracking-wider">
-                DASTAK <span className="text-xs text-[#F5B041] font-bold">دستک</span>
+              <span className="text-xl font-black text-white tracking-wider flex items-center gap-2">
+                <span>Dastak</span>
+                <span className="text-slate-500 font-normal">|</span>
+                <span className="text-xs text-[#F5B041] font-bold px-1.5 py-0.5 rounded bg-[#F5B041]/10 border border-[#F5B041]/30">
+                  دستک
+                </span>
               </span>
             </div>
 
@@ -53,7 +52,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
           {/* Quick Navigation Links */}
           <div>
             <h4 className="text-sm font-bold text-white mb-3.5 tracking-wide">
-              {lang === 'ur' ? 'اہم لنکس' : 'Navigation'}
+              Navigation
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -63,15 +62,6 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
                   className="hover:text-[#FFE89E] transition-colors"
                 >
                   {t.nav.home}
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#welcome-voice"
-                  onClick={(e) => handleNavClick(e, '#welcome-voice')}
-                  className="hover:text-[#FFE89E] transition-colors"
-                >
-                  {t.nav.voice}
                 </a>
               </li>
               <li>
@@ -94,15 +84,6 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               </li>
               <li>
                 <a
-                  href="#order-form"
-                  onClick={(e) => handleNavClick(e, '#order-form')}
-                  className="hover:text-[#FFE89E] transition-colors"
-                >
-                  {t.nav.order}
-                </a>
-              </li>
-              <li>
-                <a
                   href="#service-area"
                   onClick={(e) => handleNavClick(e, '#service-area')}
                   className="hover:text-[#FFE89E] transition-colors"
@@ -121,11 +102,29 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
               </li>
               <li>
                 <a
+                  href="#blog"
+                  onClick={(e) => handleNavClick(e, '#blog')}
+                  className="hover:text-[#FFE89E] transition-colors"
+                >
+                  {t.nav.blog}
+                </a>
+              </li>
+              <li>
+                <a
                   href="#feedback"
                   onClick={(e) => handleNavClick(e, '#feedback')}
                   className="hover:text-[#FFE89E] transition-colors"
                 >
                   {t.nav.feedback}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  onClick={(e) => handleNavClick(e, '#faq')}
+                  className="hover:text-[#FFE89E] transition-colors"
+                >
+                  {t.nav.faq}
                 </a>
               </li>
               <li>
@@ -143,17 +142,17 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
           {/* Service Area & Direct Contact */}
           <div>
             <h4 className="text-sm font-bold text-white mb-3.5 tracking-wide">
-              {lang === 'ur' ? 'علاقہ و رابطہ' : 'Area & Contact'}
+              Area & Contact
             </h4>
             <div className="space-y-2.5 text-xs text-slate-300">
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-[#F5B041] shrink-0 mt-0.5" />
-                <span>Jhelum City Housing, Jhelum, Pakistan</span>
+                <span>{t.footer.locationLabel}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
-                <a href={`tel:${WHATSAPP_NUMBER}`} className="hover:text-white font-mono">
-                  {WHATSAPP_NUMBER}
+                <a href="tel:03049574463" className="hover:text-white font-mono">
+                  {WHATSAPP_DISPLAY_PHONE}
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -164,16 +163,16 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
                   rel="noopener noreferrer"
                   className="text-[#25D366] hover:underline"
                 >
-                  WhatsApp Click-to-Chat
+                  WhatsApp: {WHATSAPP_LOCAL_PHONE}
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Social Follow & Language Switch */}
+          {/* Social Follow */}
           <div>
             <h4 className="text-sm font-bold text-white mb-3.5 tracking-wide">
-              {lang === 'ur' ? 'سوشل میڈیا' : 'Social Channels'}
+              Official Social Channels
             </h4>
             <div className="flex flex-col gap-2 text-xs">
               <a
@@ -182,7 +181,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
                 rel="noopener noreferrer"
                 className="hover:text-white flex items-center justify-between p-2 rounded-lg bg-[#0B1528] hover:bg-[#122347] transition-all"
               >
-                <span>TikTok (@dastakapp0)</span>
+                <span>TikTok (@dastakdeliveryservice)</span>
                 <span className="text-[10px] text-[#00F2FE]">Follow ›</span>
               </a>
 
@@ -205,15 +204,6 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
                 <span>Instagram Reel</span>
                 <span className="text-[10px] text-[#E1306C]">Watch ›</span>
               </a>
-
-              <button
-                type="button"
-                onClick={onToggleLanguage}
-                className="mt-2 w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-slate-700 bg-[#070D1E] text-xs font-semibold text-slate-300 hover:text-white hover:border-[#F5B041] transition-all cursor-pointer"
-              >
-                <Globe className="w-3.5 h-3.5 text-[#F5B041]" />
-                <span>{lang === 'ur' ? 'Switch to English' : 'اردو میں تبدیل کریں'}</span>
-              </button>
             </div>
           </div>
         </div>
@@ -221,7 +211,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onToggleLanguage }) => {
         {/* Bottom Bar with Dynamic Year */}
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © {currentYear} Dastak (دستک). {t.footer.copyright}
+            © {currentYear} Dastak | دستک. {t.footer.copyright}
           </p>
 
           <p className="text-[11px] text-slate-500">

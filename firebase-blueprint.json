@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "Feedback": {
+      "title": "Feedback",
+      "description": "Public customer feedback, star rating, and service impression for Dastak Delivery Service",
+      "type": "object",
+      "properties": {
+        "rating": {
+          "type": "integer",
+          "description": "Rating score between 1 and 5 stars"
+        },
+        "comment": {
+          "type": "string",
+          "description": "Review text or customer comments",
+          "minLength": 5,
+          "maxLength": 1000
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of reviewer or customer moniker",
+          "maxLength": 100
+        },
+        "category": {
+          "type": "string",
+          "description": "Service category experienced",
+          "maxLength": 100
+        },
+        "status": {
+          "type": "string",
+          "description": "Moderation status of feedback",
+          "enum": ["approved", "pending"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the review was registered"
+        }
+      },
+      "required": ["rating", "comment", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/feedback/{feedbackId}": {
+      "schema": "Feedback",
+      "description": "Collection of public customer reviews and ratings"
+    }
+  }
+}

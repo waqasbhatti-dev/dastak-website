@@ -1,67 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Play, Square, ShoppingBag, Globe, AlertTriangle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
-import { Language } from '../types';
-import { translations, WELCOME_VOICE_SCRIPTS } from '../constants/translations';
+import { Volume2, Play, Square, MessageCircle, AlertTriangle, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { translations, WELCOME_VOICE_SCRIPTS, WHATSAPP_URL } from '../constants/translations';
 
-interface WelcomeVoicePanelProps {
-  currentLang: Language;
-  onLanguageChange?: (lang: Language) => void;
-}
-
-export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
-  currentLang,
-  onLanguageChange,
-}) => {
-  const t = translations[currentLang];
-
-  // Local speech language selection (defaults to current website language)
-  const [speechLang, setSpeechLang] = useState<Language>(currentLang);
+export const WelcomeVoicePanel: React.FC = () => {
+  const t = translations;
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isSupported, setIsSupported] = useState<boolean>(true);
-  const [hasUrduVoice, setHasUrduVoice] = useState<boolean | null>(null);
-  const [activeVoiceName, setActiveVoiceName] = useState<string>('');
   const [showScript, setShowScript] = useState<boolean>(false);
   const [statusAnnouncement, setStatusAnnouncement] = useState<string>('');
 
   const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  // Synchronize local speech language with website language if website language changes
-  useEffect(() => {
-    setSpeechLang(currentLang);
-  }, [currentLang]);
-
-  // Check speech synthesis support and load voices
   useEffect(() => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
       setIsSupported(false);
       return;
-    }
-
-    const checkVoices = () => {
-      try {
-        const voices = window.speechSynthesis.getVoices();
-        if (!voices || voices.length === 0) return;
-
-        // Check if any voice supports Urdu
-        const urduVoice = voices.find(
-          (v) =>
-            v.lang.toLowerCase().startsWith('ur') ||
-            v.lang.toLowerCase().includes('urdu') ||
-            v.name.toLowerCase().includes('urdu')
-        );
-        setHasUrduVoice(Boolean(urduVoice));
-
-        // Detect current speechLang's active voice
-        findBestVoice(speechLang, voices);
-      } catch (err) {
-        console.warn('SpeechSynthesis voice listing error:', err);
-      }
-    };
-
-    checkVoices();
-
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = checkVoices;
     }
 
     return () => {
@@ -69,107 +22,65 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
         window.speechSynthesis.cancel();
       }
     };
-  }, [speechLang]);
+  }, []);
 
-  // Helper to select the most suitable browser voice
-  const findBestVoice = (lang: Language, voiceList?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null => {
+  const findBestVoice = (): SpeechSynthesisVoice | null => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null;
-    const voices = voiceList || window.speechSynthesis.getVoices();
+    const voices = window.speechSynthesis.getVoices();
     if (!voices || voices.length === 0) return null;
 
-    if (lang === 'ur') {
-      const urduVoice = voices.find(
-        (v) =>
-          v.lang.toLowerCase().startsWith('ur') ||
-          v.lang.toLowerCase().includes('urdu') ||
-          v.name.toLowerCase().includes('urdu')
-      );
-      if (urduVoice) {
-        setActiveVoiceName(urduVoice.name);
-        return urduVoice;
-      }
-      // If no dedicated Urdu voice exists, look for a standard Arabic or generic voice
-      const arabicFallback = voices.find((v) => v.lang.toLowerCase().startsWith('ar'));
-      if (arabicFallback) {
-        setActiveVoiceName(`${arabicFallback.name} (Arabic engine fallback)`);
-        return arabicFallback;
-      }
-      const defaultVoice = voices.find((v) => v.default) || voices[0];
-      if (defaultVoice) setActiveVoiceName(defaultVoice.name);
-      return defaultVoice || null;
-    } else {
-      // English voice selection
-      const naturalEn = voices.find(
-        (v) =>
-          v.lang.toLowerCase().startsWith('en') &&
-          (v.name.toLowerCase().includes('natural') ||
-            v.name.toLowerCase().includes('google') ||
-            v.name.toLowerCase().includes('premium'))
-      );
-      const standardEn = voices.find((v) => v.lang.toLowerCase().startsWith('en'));
-      const chosen = naturalEn || standardEn || voices[0];
-      if (chosen) setActiveVoiceName(chosen.name);
-      return chosen || null;
-    }
+    const naturalEn = voices.find(
+      (v) =>
+        v.lang.toLowerCase().startsWith('en') &&
+        (v.name.toLowerCase().includes('natural') ||
+          v.name.toLowerCase().includes('google') ||
+          v.name.toLowerCase().includes('premium'))
+    );
+    const standardEn = voices.find((v) => v.lang.toLowerCase().startsWith('en'));
+    return naturalEn || standardEn || voices[0] || null;
   };
 
-  // Stop any active speech immediately
   const handleStopVoice = () => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
     setIsSpeaking(false);
     currentUtteranceRef.current = null;
-    setStatusAnnouncement(
-      currentLang === 'ur' ? 'آواز بند کر دی گئی ہے۔' : 'Welcome voice stopped.'
-    );
+    setStatusAnnouncement('Welcome audio stopped.');
   };
 
-  // Play Welcome Voice
   const handleListenWelcome = () => {
     if (!isSupported || typeof window === 'undefined') return;
 
-    // Stop any ongoing speech first to prevent overlapping
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
 
     try {
-      const textToSpeak = WELCOME_VOICE_SCRIPTS[speechLang];
+      const textToSpeak = WELCOME_VOICE_SCRIPTS.en;
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
 
-      // Select voice
-      const chosenVoice = findBestVoice(speechLang);
+      const chosenVoice = findBestVoice();
       if (chosenVoice) {
         utterance.voice = chosenVoice;
       }
 
-      // Configure standard, natural speech parameters
-      utterance.lang = speechLang === 'ur' ? 'ur-PK' : 'en-US';
-      utterance.rate = 0.95; // Moderate, clear pace
+      utterance.lang = 'en-US';
+      utterance.rate = 0.95;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
       utterance.onstart = () => {
         setIsSpeaking(true);
-        setStatusAnnouncement(
-          currentLang === 'ur'
-            ? 'خوش آمدیدی پیغام بولا جا رہا ہے۔'
-            : 'Playing welcome message.'
-        );
+        setStatusAnnouncement('Playing welcome audio overview.');
       };
 
       utterance.onend = () => {
         setIsSpeaking(false);
         currentUtteranceRef.current = null;
-        setStatusAnnouncement(
-          currentLang === 'ur'
-            ? 'پیغام مکمل ہو گیا۔'
-            : 'Welcome message finished.'
-        );
+        setStatusAnnouncement('Welcome audio finished.');
       };
 
       utterance.onerror = (e) => {
-        // SpeechSynthesis can throw 'interrupted' or 'canceled' when manually stopped
         if (e.error !== 'canceled' && e.error !== 'interrupted') {
           console.warn('SpeechSynthesis error:', e.error);
         }
@@ -185,31 +96,6 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
     }
   };
 
-  // Language switch handler within panel
-  const handleSelectLanguage = (targetLang: Language) => {
-    // If speaking, stop immediately before switching
-    if (isSpeaking) {
-      handleStopVoice();
-    }
-    setSpeechLang(targetLang);
-    if (onLanguageChange && targetLang !== currentLang) {
-      onLanguageChange(targetLang);
-    }
-  };
-
-  const handleScrollToOrder = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    if (isSpeaking) {
-      handleStopVoice();
-    }
-    const target = document.querySelector('#order-form');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const voiceTranslations = t.welcomeVoice;
-
   return (
     <div className="w-full max-w-xl mx-auto">
       <div className="relative rounded-2xl bg-gradient-to-b from-[#0F1E3D] via-[#0A1428] to-[#070D1E] border border-slate-800 shadow-xl p-5 sm:p-6 backdrop-blur-md">
@@ -219,7 +105,7 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
           aria-hidden="true"
         />
 
-        {/* Top Header with Audio Wave Indicator */}
+        {/* Top Header */}
         <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-700/60">
           <div className="flex items-center gap-2">
             <div
@@ -238,72 +124,40 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
 
             <div className="text-start">
               <h3 className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
-                <span>{currentLang === 'ur' ? 'آڈیو پلیئر' : 'Audio Player'}</span>
+                <span>Audio Guide</span>
                 {isSpeaking ? (
                   <span className="inline-flex items-center gap-1 text-[10px] text-[#25D366] font-bold bg-[#25D366]/10 px-2 py-0.5 rounded-full border border-[#25D366]/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#25D366] animate-ping" />
-                    <span>LIVE</span>
+                    <span>PLAYING</span>
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-1 text-[10px] text-slate-400 font-medium bg-slate-800/60 px-2 py-0.5 rounded-full border border-slate-700/60">
-                    <span>{voiceTranslations.voiceReady}</span>
+                    <span>{t.welcomeVoice.voiceReady}</span>
                   </span>
                 )}
               </h3>
               <p className="text-[11px] text-slate-300 font-medium">
-                {currentLang === 'ur' ? 'انگریزی یا اردو میں پیغام سنیں' : 'Listen in English or Urdu'}
+                Listen to a clear overview of Dastak Delivery Service
               </p>
             </div>
           </div>
 
-          {/* Language Switcher Buttons inside the Panel */}
-          <div className="flex items-center gap-1 bg-[#070D1E] p-1 rounded-xl border border-slate-800 shrink-0">
-            <button
-              type="button"
-              onClick={() => handleSelectLanguage('ur')}
-              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                speechLang === 'ur'
-                  ? 'bg-gradient-to-r from-[#FFE89E] to-[#F5B041] text-[#070D1E] shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              aria-label="Urdu speech language"
-            >
-              اردو
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSelectLanguage('en')}
-              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
-                speechLang === 'en'
-                  ? 'bg-gradient-to-r from-[#FFE89E] to-[#F5B041] text-[#070D1E] shadow-sm'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-              aria-label="English speech language"
-            >
-              English
-            </button>
+          <div className="text-xs font-bold text-[#FFE89E] px-2.5 py-1 rounded-lg bg-[#070D1E] border border-slate-800">
+            English Audio
           </div>
         </div>
 
-        {/* Unsupported Warning if browser lacks Speech Synthesis */}
+        {/* Unsupported Warning */}
         {!isSupported && (
           <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-800 text-xs text-amber-200 flex items-start gap-2 mb-3 text-start">
             <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <span>{voiceTranslations.unsupported}</span>
+            <span>{t.welcomeVoice.unsupported}</span>
           </div>
         )}
 
-        {/* Honest Urdu Voice Compatibility Notice */}
-        {isSupported && speechLang === 'ur' && hasUrduVoice === false && (
-          <div className="p-2.5 rounded-xl bg-[#162A56]/40 border border-[#F5B041]/30 text-[11px] text-slate-300 flex items-start gap-2 mb-3 text-start leading-relaxed">
-            <AlertTriangle className="w-3.5 h-3.5 text-[#F5B041] shrink-0 mt-0.5" />
-            <p>{voiceTranslations.urduNotice}</p>
-          </div>
-        )}
-
-        {/* Main Action Buttons */}
+        {/* Action Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          {/* Button 1: Listen to Welcome */}
+          {/* Button 1: Listen */}
           <button
             type="button"
             disabled={!isSupported || isSpeaking}
@@ -313,22 +167,22 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
                 ? 'bg-[#122347] text-[#FFE89E] border border-[#F5B041]/40 opacity-90 cursor-not-allowed'
                 : 'bg-gradient-to-r from-[#FFE89E] via-[#F5B041] to-[#E5A93C] text-[#070D1E] hover:from-[#FFF1BD] hover:to-[#F5B041] shadow-md shadow-[#F5B041]/20 hover:scale-[1.02] active:scale-[0.98]'
             }`}
-            aria-label={voiceTranslations.btnListen}
+            aria-label={t.welcomeVoice.btnListen}
           >
             {isSpeaking ? (
               <>
                 <Volume2 className="w-4 h-4 animate-pulse text-[#25D366]" />
-                <span className="truncate">{voiceTranslations.btnSpeaking}</span>
+                <span className="truncate">{t.welcomeVoice.btnSpeaking}</span>
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 fill-current shrink-0" />
-                <span className="truncate">{voiceTranslations.btnListen}</span>
+                <span className="truncate">{t.welcomeVoice.btnListen}</span>
               </>
             )}
           </button>
 
-          {/* Button 2: Stop Voice */}
+          {/* Button 2: Stop */}
           <button
             type="button"
             disabled={!isSpeaking}
@@ -338,29 +192,33 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
                 ? 'bg-red-950/70 border-red-600 text-red-200 hover:bg-red-900 shadow-md shadow-red-950/40 cursor-pointer animate-pulse'
                 : 'bg-[#070D1E]/60 border-slate-800 text-slate-500 cursor-not-allowed opacity-60'
             }`}
-            aria-label={voiceTranslations.btnStop}
+            aria-label={t.welcomeVoice.btnStop}
           >
             <Square className="w-3.5 h-3.5 fill-current shrink-0" />
-            <span className="truncate">{voiceTranslations.btnStop}</span>
+            <span className="truncate">{t.welcomeVoice.btnStop}</span>
           </button>
 
-          {/* Button 3: Place an Order */}
+          {/* Button 3: Direct WhatsApp */}
           <a
-            href="#order-form"
-            onClick={handleScrollToOrder}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#16284F] hover:bg-[#1C3366] border border-[#F5B041]/30 text-[#FFE89E] hover:text-white transition-all cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-[#F5B041]"
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              if (isSpeaking) handleStopVoice();
+            }}
+            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-[#25D366] hover:bg-[#1EBE5D] text-white transition-all cursor-pointer shadow-md focus:outline-none focus:ring-2 focus:ring-[#25D366]"
           >
-            <ShoppingBag className="w-3.5 h-3.5 text-[#F5B041] shrink-0" />
-            <span className="truncate">{voiceTranslations.btnOrder}</span>
+            <MessageCircle className="w-3.5 h-3.5 fill-white text-transparent shrink-0" />
+            <span className="truncate">{t.welcomeVoice.btnContact}</span>
           </a>
         </div>
 
-        {/* Accessibility Status Announcement (Screen Readers) */}
+        {/* Screen Reader Announcement */}
         <div className="sr-only" aria-live="polite">
           {statusAnnouncement}
         </div>
 
-        {/* Collapsible Script Preview (Read along / accessibility) */}
+        {/* Collapsible Script Preview */}
         <div className="mt-3 pt-2.5 border-t border-slate-800 text-start">
           <button
             type="button"
@@ -370,14 +228,14 @@ export const WelcomeVoicePanel: React.FC<WelcomeVoicePanelProps> = ({
           >
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3 h-3 text-[#F5B041]" />
-              <span>{showScript ? voiceTranslations.hideScript : voiceTranslations.toggleScript}</span>
+              <span>{showScript ? t.welcomeVoice.hideScript : t.welcomeVoice.toggleScript}</span>
             </span>
             {showScript ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
 
           {showScript && (
             <div className="mt-2 p-3 rounded-xl bg-[#070D1E] border border-slate-800 text-xs text-slate-300 leading-relaxed whitespace-pre-line max-h-44 overflow-y-auto font-sans selection:bg-[#F5B041] selection:text-black">
-              {WELCOME_VOICE_SCRIPTS[speechLang]}
+              {WELCOME_VOICE_SCRIPTS.en}
             </div>
           )}
         </div>
